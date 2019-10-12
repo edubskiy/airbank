@@ -39,20 +39,20 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('AirBank Home Page'),
       ),
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.blueAccent,
-              child: Text('Chart'),
-              elevation: 5,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blueAccent,
+                child: Text('Chart'),
+                elevation: 5,
+              ),
             ),
-          ),
-          UserTransactions()
-        ],
+            UserTransactions()
+          ],
+        ),
       ),
     );
   }
