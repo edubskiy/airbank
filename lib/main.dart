@@ -12,6 +12,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AirBank',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber
+      ),
       home: HomePage(),
     );
   }
