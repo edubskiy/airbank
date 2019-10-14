@@ -1,3 +1,4 @@
+import 'package:airbank/widgets/chart.dart';
 import 'package:airbank/widgets/new_transaction.dart';
 import 'package:airbank/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -59,18 +60,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'New shoes',
-    //   amount: 69.99,
-    //   date: DateTime.now()
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Weekly casual groceries',
-    //   amount: 14.66,
-    //   date: DateTime.now()
-    // )
+    Transaction(
+      id: 't1',
+      title: 'New shoes',
+      amount: 69.99,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly casual groceries',
+      amount: 14.66,
+      date: DateTime.now()
+    )
   ];
 
   void addNewTransactionPanel(BuildContext ctx) {
@@ -79,8 +80,17 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<Transaction> get recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('recent transactions');
+    
+    print(recentTransactions);
     return Scaffold(
       appBar: AppBar(
         title: Text('AirBank Home Page'),
@@ -94,14 +104,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blueAccent,
-                child: Text('Chart'),
-                elevation: 5,
-              ),
-            ),
+            Chart(recentTransactions),
             TransactionList(_userTransactions)
           ],
         ),
