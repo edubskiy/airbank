@@ -1,6 +1,6 @@
-# airbank
+# AirBank
 
-A new Flutter project.
+Your digital wallet for all your transaction with accounts, statements, chat and stories
 
 ## Getting Started
 
