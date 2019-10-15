@@ -16,22 +16,20 @@ class Chart extends StatelessWidget {
 
       for (var i = 0; i < recentTransactions.length; i++) {
         var rtx = recentTransactions[i];
-        if (rtx.date.day == weekDay.day && rtx.date.month == weekDay.month 
-          && rtx.date.year == weekDay.year) {
-            totalSum += rtx.amount;
-          }
+        if (rtx.date.day == weekDay.day &&
+            rtx.date.month == weekDay.month &&
+            rtx.date.year == weekDay.year) {
+          totalSum += rtx.amount;
+        }
       }
 
-      return { 
-        'day': DateFormat.E().format(weekDay), 
-        'amount': totalSum 
-      };
-    });
+      return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
+    }).reversed.toList();
   }
 
   double get totalSpending {
     return grouppedTransactions.fold(0.0, (sum, item) {
-        return sum + item['amount'];
+      return sum + item['amount'];
     });
   }
 
@@ -39,18 +37,23 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     print(grouppedTransactions);
     return Card(
-      elevation: 5,
-      margin: EdgeInsets.all(20),
-      child: Row(
-        children: grouppedTransactions.map((tx) {
-          return ChartBar(
-            tx['day'], 
-            tx['amount'], 
-            totalSpending == 0.0 
-              ? 0.0 
-              : (tx['amount'] as double) / totalSpending
-          );
-        }).toList()
-    ));
+        elevation: 5,
+        margin: EdgeInsets.all(20),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: grouppedTransactions.map((tx) {
+                return Flexible(
+                  fit: FlexFit.tight,
+                  child: ChartBar(
+                      tx['day'],
+                      tx['amount'],
+                      totalSpending == 0.0
+                          ? 0.0
+                          : (tx['amount'] as double) / totalSpending),
+                );
+              }).toList()),
+        ));
   }
 }

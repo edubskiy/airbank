@@ -22,7 +22,8 @@ class App extends StatelessWidget {
             fontFamily: 'OpenSans',
               fontSize: 18,
               fontWeight: FontWeight.bold
-          )
+          ),
+          button: TextStyle(color: Colors.white)
         ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -46,11 +47,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime selectedDate) {
     final newTx = Transaction(
       title: title, 
       amount: amount, 
-      date: DateTime.now(), 
+      date: selectedDate, 
       id: DateTime.now().toString()
     );
 
