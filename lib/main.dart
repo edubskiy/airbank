@@ -95,24 +95,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('recent transactions');
+    final appBar = AppBar(
+      title: Text('AirBank Home Page'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add), 
+          onPressed: () => addNewTransactionPanel(context),
+        )
+      ]
+    );
 
-    print(recentTransactions);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AirBank Home Page'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add), 
-            onPressed: () => addNewTransactionPanel(context),
-          )
-        ]
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Chart(recentTransactions),
-            TransactionList(_userTransactions, _deleteTransaction)
+            Container(
+              height: (MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.4,
+              child: Chart(recentTransactions)
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height - 
+                appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.6,
+              child: TransactionList(_userTransactions, _deleteTransaction)
+            )
           ],
         ),
       ),
