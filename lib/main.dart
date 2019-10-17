@@ -47,6 +47,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isChartShown = false;
+
   void _addNewTransaction(String title, double amount, DateTime selectedDate) {
     final newTx = Transaction(
       title: title, 
@@ -87,6 +89,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _showChart(show) {
+    setState(() {
+      _isChartShown = show;
+    });
+  }
+
   List<Transaction> get recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -110,7 +118,17 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('Show chart'),
+                Switch(
+                  value: _isChartShown,
+                  onChanged: _showChart,
+                ),
+              ],
+            ),
+            if (_isChartShown) Container(
               height: (MediaQuery.of(context).size.height - 
                 appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.3,
               child: Chart(recentTransactions)
