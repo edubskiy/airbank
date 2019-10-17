@@ -103,6 +103,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: Text('AirBank Home Page'),
       actions: <Widget>[
@@ -118,7 +120,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
+            if (isLandscape) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text('Show chart'),
