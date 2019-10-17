@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> {
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape) Row(
               mainAxisAlignment: MainAxisAlignment.center,
