@@ -103,7 +103,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text('AirBank Home Page'),
@@ -116,8 +117,8 @@ class _HomePageState extends State<HomePage> {
     );
 
     final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height - 
-        appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.7,
+      height: (mediaQuery.size.height - 
+        appBar.preferredSize.height - mediaQuery.padding.top) * 0.7,
       child: TransactionList(_userTransactions, _deleteTransaction)
     );
 
@@ -138,15 +139,15 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             if ( ! isLandscape) Container(
-              height: (MediaQuery.of(context).size.height - 
-                appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.8,
+              height: (mediaQuery.size.height - 
+                appBar.preferredSize.height - mediaQuery.padding.top) * 0.8,
               child: Chart(recentTransactions)
             ),
             if ( ! isLandscape) txListWidget,
             if (isLandscape) _isChartShown
               ? Container(
-                  height: (MediaQuery.of(context).size.height - 
-                    appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.8,
+                  height: (mediaQuery.size.height - 
+                    appBar.preferredSize.height - mediaQuery.padding.top) * 0.8,
                   child: Chart(recentTransactions)
                 )
               : txListWidget
