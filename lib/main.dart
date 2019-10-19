@@ -63,18 +63,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'New shoes',
-    //   amount: 69.99,
-    //   date: DateTime.now()
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Weekly casual groceries',
-    //   amount: 14.66,
-    //   date: DateTime.now()
-    // )
+    Transaction(
+      id: 't1',
+      title: 'New shoes',
+      amount: 69.99,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly casual groceries',
+      amount: 14.66,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't1',
+      title: 'New shoes',
+      amount: 69.99,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly casual groceries',
+      amount: 14.66,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New shoes',
+      amount: 69.99,
+      date: DateTime.now()
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Weekly casual groceries',
+      amount: 14.66,
+      date: DateTime.now()
+    )
   ];
 
   void addNewTransactionPanel(BuildContext ctx) {
@@ -132,7 +156,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text('Show chart'),
-                Switch(
+                Switch.adaptive(
                   value: _isChartShown,
                   onChanged: _showChart,
                 ),
