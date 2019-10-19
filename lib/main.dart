@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:airbank/widgets/chart.dart';
+import 'models/transaction.dart';
 import 'package:airbank/widgets/new_transaction.dart';
 import 'package:airbank/widgets/transaction_list.dart';
-import 'package:flutter/material.dart';
-
-import 'models/transaction.dart';
 
 void main() => runApp(App());
 
@@ -130,15 +132,32 @@ class _HomePageState extends State<HomePage> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final appBar = AppBar(
-      title: Text('AirBank Home Page'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add), 
-          onPressed: () => addNewTransactionPanel(context),
+    final PreferredSizeWidget appBar = Platform.isIOS 
+      ? CupertinoNavigationBar(
+          middle: Text('AirBank Home Page'),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              GestureDetector(
+                child: Icon(CupertinoIcons.add),
+                onTap: () => addNewTransactionPanel(context),
+              ),
+              // IconButton(
+              //   icon: Icon(Icons.add), 
+              //   onPressed: () => addNewTransactionPanel(context),
+              // )    
+            ],
+          ),
         )
-      ]
-    );
+      : AppBar(
+        title: Text('AirBank Home Page'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add), 
+            onPressed: () => addNewTransactionPanel(context),
+          )
+        ]
+      );
 
     final txListWidget = Container(
       height: (mediaQuery.size.height - 
@@ -146,9 +165,7 @@ class _HomePageState extends State<HomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction)
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
+    final pageBody = SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -157,6 +174,7 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Text('Show chart'),
                 Switch.adaptive(
+                  activeColor: Theme.of(context).accentColor,
                   value: _isChartShown,
                   onChanged: _showChart,
                 ),
@@ -164,7 +182,7 @@ class _HomePageState extends State<HomePage> {
             ),
             if ( ! isLandscape) Container(
               height: (mediaQuery.size.height - 
-                appBar.preferredSize.height - mediaQuery.padding.top) * 0.4,
+                appBar.preferredSize.height - mediaQuery.padding.top) * 0.3,
               child: Chart(recentTransactions)
             ),
             if ( ! isLandscape) txListWidget,
@@ -177,8 +195,20 @@ class _HomePageState extends State<HomePage> {
               : txListWidget
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
+      );
+
+    return Platform.isIOS 
+    ? CupertinoPageScaffold(
+        child: pageBody,
+        navigationBar: appBar,
+      )
+    : Scaffold(
+      appBar: appBar,
+      body: pageBody,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Platform.isIOS 
+      ? Container() 
+      : FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => addNewTransactionPanel(context),
       ),
