@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
             ),
             if ( ! isLandscape) Container(
               height: (mediaQuery.size.height - 
-                appBar.preferredSize.height - mediaQuery.padding.top) * 0.8,
+                appBar.preferredSize.height - mediaQuery.padding.top) * 0.4,
               child: Chart(recentTransactions)
             ),
             if ( ! isLandscape) txListWidget,
