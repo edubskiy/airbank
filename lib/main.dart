@@ -165,14 +165,15 @@ class _HomePageState extends State<HomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction)
     );
 
-    final pageBody = SingleChildScrollView(
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape) Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Show chart'),
+                Text('Show chart', style: Theme.of(context).textTheme.title),
                 Switch.adaptive(
                   activeColor: Theme.of(context).accentColor,
                   value: _isChartShown,
@@ -195,7 +196,8 @@ class _HomePageState extends State<HomePage> {
               : txListWidget
           ],
         ),
-      );
+      ),
+    );
 
     return Platform.isIOS 
     ? CupertinoPageScaffold(
