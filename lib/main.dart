@@ -121,6 +121,40 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Show chart', style: Theme.of(context).textTheme.title),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _isChartShown,
+            onChanged: _showChart,
+          ),
+        ],
+      ),
+      _isChartShown
+        ? Container(
+            height: (mediaQuery.size.height - 
+              appBar.preferredSize.height - mediaQuery.padding.top) * 0.8,
+            child: Chart(recentTransactions)
+          )
+        : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, appBar, Widget txListWidget) {
+    return [
+      Container(
+        height: (mediaQuery.size.height - 
+          appBar.preferredSize.height - mediaQuery.padding.top) * 0.3,
+        child: Chart(recentTransactions)
+      ),
+      txListWidget
+    ];
+  }
+
   List<Transaction> get recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -142,10 +176,6 @@ class _HomePageState extends State<HomePage> {
                 child: Icon(CupertinoIcons.add),
                 onTap: () => addNewTransactionPanel(context),
               ),
-              // IconButton(
-              //   icon: Icon(Icons.add), 
-              //   onPressed: () => addNewTransactionPanel(context),
-              // )    
             ],
           ),
         )
@@ -170,30 +200,18 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape) Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Show chart', style: Theme.of(context).textTheme.title),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _isChartShown,
-                  onChanged: _showChart,
-                ),
-              ],
-            ),
-            if ( ! isLandscape) Container(
-              height: (mediaQuery.size.height - 
-                appBar.preferredSize.height - mediaQuery.padding.top) * 0.3,
-              child: Chart(recentTransactions)
-            ),
-            if ( ! isLandscape) txListWidget,
-            if (isLandscape) _isChartShown
-              ? Container(
-                  height: (mediaQuery.size.height - 
-                    appBar.preferredSize.height - mediaQuery.padding.top) * 0.8,
-                  child: Chart(recentTransactions)
-                )
-              : txListWidget
+            if (isLandscape) 
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appBar,
+                txListWidget
+              ),
+            if ( ! isLandscape) 
+              ..._buildPortraitContent(
+                mediaQuery,
+                appBar,
+                txListWidget
+              ),
           ],
         ),
       ),
