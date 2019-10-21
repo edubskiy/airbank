@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> with  WidgetsBindingObserver {
     });
   }
 
-  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, appBar, Widget txListWidget) {
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, PreferredSizeWidget appBar, Widget txListWidget) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -164,29 +164,19 @@ class _HomePageState extends State<HomePage> with  WidgetsBindingObserver {
     ];
   }
 
-  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, appBar, Widget txListWidget) {
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, PreferredSizeWidget appBar, Widget txListWidget) {
     return [
       Container(
         height: (mediaQuery.size.height - 
-          appBar.preferredSize.height - mediaQuery.padding.top) * 0.3,
+        appBar.preferredSize.height - mediaQuery.padding.top) * 0.3,
         child: Chart(recentTransactions)
       ),
       txListWidget
     ];
   }
 
-  List<Transaction> get recentTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-    }).toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-
-    final PreferredSizeWidget appBar = Platform.isIOS 
+  Widget _buildAppBarContent() {
+    return Platform.isIOS 
       ? CupertinoNavigationBar(
           middle: Text('AirBank Home Page'),
           trailing: Row(
@@ -208,6 +198,20 @@ class _HomePageState extends State<HomePage> with  WidgetsBindingObserver {
           )
         ]
       );
+  }
+
+  List<Transaction> get recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    final PreferredSizeWidget appBar = _buildAppBarContent();
 
     final txListWidget = Container(
       height: (mediaQuery.size.height - 
