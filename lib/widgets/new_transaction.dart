@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:airbank/widgets/adaptive_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +19,11 @@ class _NewTransactionState extends State<NewTransaction> {
 
   void _showDatePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2019),
-            lastDate: DateTime.now())
-        .then((selectedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now())
+    .then((selectedDate) {
       if (selectedDate == null) {
         return;
       }
